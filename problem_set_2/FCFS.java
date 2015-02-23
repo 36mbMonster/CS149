@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -25,22 +26,13 @@ public class FCFS
             
             //Add arrival times and run times
             Random numGenerator = new Random();
-            arrivalTime.add(numGenerator.nextFloat() * numGenerator.nextInt(200)); 
-            runTime.add(numGenerator.nextFloat() * numGenerator.nextInt(10)); 
+            arrivalTime.add(numGenerator.nextFloat() * numGenerator.nextInt(200)); //add random number to arrivalTime arraylist
+            Collections.sort(arrivalTime); //sorts the arrival time for the FCFS algorithm
+            runTime.add(numGenerator.nextFloat() * numGenerator.nextInt(10)); //add random number to runTime arraylist
         }
-        
+
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        //calculating turn-around time
-        Float totalTATime;
-        for(int i = 0; i < processes; i++)
-        {   
-            float toAdd = runTime.get(i);
-            //float toAdd = waitTime.get(i);
-            turnAroundTime.add(toAdd);
-        }
-        
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //WAIT TIME
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         //calculating waiting time
@@ -65,14 +57,27 @@ public class FCFS
         
         
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //TURN AROUND TIME
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //calculating turn-around time
+        //turn around time = completed execution - arrival time
         
+        Float totalTATime;
+        for(int i = 0; i < processes; i++)
+        {              
+            float ceTime = runTime.get(i) + waitTime.get(i); //ceTime = completed execution time
+            //float toAdd = ceTime - arrivalTime.get(i);
+            turnAroundTime.add(ceTime);
+        }
         //calculating response time
         Float totalRTime;
         for(int i = 0; i < processes; i++)
         {
             
         }
+        
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         
         //calculating throughput
         for(int i = 0; i < processes; i++)
@@ -85,7 +90,7 @@ public class FCFS
         
         //RESULTS
         System.out.println("pid: " + processID);
-        //System.out.println(arrivalTime);
+        System.out.println("Arrival Time: " + arrivalTime);
         System.out.println("Run Time: " +runTime);
         System.out.println("Wait Time: " + waitTime);
         System.out.println("Turn-around time: " + turnAroundTime);
