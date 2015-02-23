@@ -3,14 +3,17 @@ import java.util.*;
 public class SJF
 {
 	Random rand;
+	int procCount;
 	
-	public SJF(int args)
+	public SJF(int procCount)
 	{
 		ArrayList<SimuProc> procs = new ArrayList<SimuProc>();
 		rand = new Random(System.currentTimeMillis());
+		this.procCount = procCount;
 		
-		for(int i = 0; i < args; i++)
+		for(int i = 0; i < procCount; i++)
 			procs.add(new SimuProc());		
+
 	}
 	
 	private class SimuProc
@@ -26,5 +29,10 @@ public class SJF
 			
 			System.out.println(a_time+" "+et_runtime);
 		}
+	}
+
+	public void runSJF()
+	{
+
 	}
 }
