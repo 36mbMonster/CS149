@@ -15,6 +15,15 @@ public class AlgoRunner
 			//Run SJF 5 times.
 			for(int i = 0; i < 5; i++)
 				sjf.runSJF();
+                        
+                        
+                        //FCFS
+                        System.out.println("FCFS outputs");
+                        FCFS test = new FCFS();
+                        for(int i = 0; i < 5; i++)
+                            test.fcfs(Integer.parseInt(args[1]));
+                        
+                        
 		}
 	}
 }
