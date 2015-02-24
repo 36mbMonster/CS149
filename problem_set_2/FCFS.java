@@ -136,7 +136,18 @@ public class FCFS
     
     public static void main(String[] args)
     {
+        //50 processes 
         fcfs(50);
+        fcfs(50);
+        fcfs(50);
+        fcfs(50);
+        fcfs(50);
+        
+        //100 processes
+        fcfs(100);
+        fcfs(100);
+        fcfs(100);
+        fcfs(100);
         fcfs(100);
     }
 }
