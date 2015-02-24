@@ -27,7 +27,7 @@ public class FCFS
             //Add arrival times and run times
             Random numGenerator = new Random();
             arrivalTime.add(numGenerator.nextFloat() * numGenerator.nextInt(200)); //add random number to arrivalTime arraylist
-            Collections.sort(arrivalTime); //sorts the arrival time for the FCFS algorithm
+            Collections.sort(arrivalTime); //sorts the arrival time for the FCFS algorithmd
             runTime.add(numGenerator.nextFloat() * numGenerator.nextInt(10)); //add random number to runTime arraylist
         }
 
@@ -62,43 +62,75 @@ public class FCFS
         //calculating turn-around time
         //turn around time = completed execution - arrival time
         
-        Float totalTATime;
+        
         for(int i = 0; i < processes; i++)
         {              
             float ceTime = runTime.get(i) + waitTime.get(i); //ceTime = completed execution time
-            //float toAdd = ceTime - arrivalTime.get(i);
-            turnAroundTime.add(ceTime);
+            float toAdd = ceTime - arrivalTime.get(i);
+            turnAroundTime.add(toAdd);
         }
+        
+        Float totalTATime = 0f;
+        for(int i = 0; i < turnAroundTime.size(); i++)
+        {
+            totalTATime += turnAroundTime.get(i);
+        }
+        
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Response Time
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //calculating response time
-        Float totalRTime;
-        for(int i = 0; i < processes; i++)
-        {
-            
-        }
+        //Response time same as wait time in both FCFS and SJF
+        
+        Float totalRTime = totalWTime;
+        
         
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Throughput
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        
         //calculating throughput
-        for(int i = 0; i < processes; i++)
-        {
-            
-        }
+        Float startTime = 0f;
+        Float endTime = runTime.get(runTime.size() - 1) + waitTime.get(waitTime.size() - 1);
+        Float timePeriod = startTime + endTime;
         
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         
         //RESULTS
-        System.out.println("pid: " + processID);
-        System.out.println("Arrival Time: " + arrivalTime);
-        System.out.println("Run Time: " +runTime);
-        System.out.println("Wait Time: " + waitTime);
-        System.out.println("Turn-around time: " + turnAroundTime);
+        //System.out.println("pid: " + processID);
+        //System.out.println("Arrival Time: " + arrivalTime);
+        //System.out.println("Run Time: " +runTime);
+        //System.out.println("Wait Time: " + waitTime);
+        //System.out.println("Turn-around time: " + turnAroundTime);
         
-        System.out.println("Average turn-around time: ");
+        System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        System.out.print("Process ID:\t");
+            for(int i = 1; i <= processes;i++)
+            {
+                System.out.print(i + "\t");
+            }
+        System.out.println("");
+        System.out.print("Arrival Time:\t");
+            for(int i = 0; i < arrivalTime.size();i++)
+            {
+                System.out.format("%.2f", arrivalTime.get(i));
+                System.out.print("\t");
+            }
+        System.out.println("");
+        System.out.print("Run Time:\t");
+            for(int i = 0; i < runTime.size();i++)
+            {
+                System.out.format("%.2f", runTime.get(i));
+                System.out.print("\t");
+            }
+        System.out.println("");
+        
+
         System.out.println("Average waiting time: " + totalWTime + "/" + processes + ": " + (totalWTime/processes));
-        System.out.println("Average response time: ");
-        System.out.println("Throughput: ");
+        System.out.println("Average turn-around time: " + totalTATime + "/" + processes + ": " + (totalTATime/processes));
+        System.out.println("Average response time: " + totalRTime +"/" + processes + ": " + (totalRTime/processes));
+        System.out.println("Throughput: " + timePeriod + "/" + processes + ": " + (timePeriod/processes));
         System.out.println("\n");
     }
     
