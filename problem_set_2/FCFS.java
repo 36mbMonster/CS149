@@ -130,7 +130,7 @@ public class FCFS
         System.out.println("Average waiting time: " + totalWTime + "/" + processes + ": " + (totalWTime/processes));
         System.out.println("Average turn-around time: " + totalTATime + "/" + processes + ": " + (totalTATime/processes));
         System.out.println("Average response time: " + totalRTime +"/" + processes + ": " + (totalRTime/processes));
-        System.out.println("Throughput: " + timePeriod + "/" + processes + ": " + (timePeriod/processes));
+        System.out.println("Throughput: " + processes + "/" + timePeriod + ": " + (processes/timePeriod));
         System.out.println("\n");
     }
     
