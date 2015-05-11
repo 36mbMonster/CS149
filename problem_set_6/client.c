@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -11,11 +12,13 @@
 int main(int argc, char *argv[])
 {
     int client_sockfd;
+    int client_filefd;
     int len;
     struct sockaddr_un address;
     int result;
     char ch = 'A';
     char *message;
+    char output[255];
 
     if(argc < 2)
     {
@@ -27,6 +30,16 @@ int main(int argc, char *argv[])
 
     // Create a socket for the client.
     client_sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
+
+    //Open file for writing.
+    open("client1.txt", O_WRONLY | O_CREAT, 755);
+
+    //Make sure the file was able to open
+	if(client_filefd == -1)
+	{
+        perror("unable to open");
+        return 1;
+    }
 
     // Name the socket.
     address.sun_family = AF_UNIX;
@@ -40,16 +53,21 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    //  Write 'A' to the socket via sockfd.
+    //  Write a string to the socket via sockfd.
     printf("Writing '%s' to the socket.\n", message);
-    int byte_count = strlen(message);
-    write(client_sockfd, message, byte_count);
+
+    const int SIZE = sprintf(output,"Client 1 user message: \"%s\" to the socket %s\n",message,SOCKET_NAMES[0]);
+    write(client_sockfd, output, SIZE);
+
+    //  Write the same string to a file.
+    write(client_filefd, output, SIZE);
 
     // Read what the server sent back.
-    char *message2;
-    read(client_sockfd, message2, byte_count);
+    char message2[SIZE];
+    read(client_sockfd, message2, SIZE);
     printf("Read '%s' from the server.\n", message2);
 
     close(client_sockfd);
+    close(client_filefd);
     exit(0);
 }

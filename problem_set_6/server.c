@@ -53,8 +53,8 @@ int main()
 
         // Increment the character and write it back to the socket.
         //ch++;
-        printf("Writing string '%s'\n", "test");
-        write(client_sockfd, "test", 255);
+        printf("Writing string '%s'\n", message);
+        write(client_sockfd, message, strlen(message));
 
         // Close the socket.
         close(client_sockfd);
