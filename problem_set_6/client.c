@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
     char *message;
     char output[255];
 
-    if(argc < 2)
+    if(argc < 3)
     {
-        printf("Usage: client <message string>\n");
+        printf("Usage: client <message string> <client number>\n");
         return 1;
     }
 
@@ -32,18 +32,20 @@ int main(int argc, char *argv[])
     client_sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 
     //Open file for writing.
-    open("client1.txt", O_WRONLY | O_CREAT, 755);
+    char filename[11];
+    sprintf(filename, "client%d.txt",argv[2]);
+    client_filefd = open(filename, O_WRONLY | O_CREAT, 755);
 
     //Make sure the file was able to open
 	if(client_filefd == -1)
 	{
         perror("unable to open");
-        return 1;
+        return 2;
     }
 
     // Name the socket.
     address.sun_family = AF_UNIX;
-    strcpy(address.sun_path, SOCKET_NAMES[0]);
+    strcpy(address.sun_path, SOCKET_NAMES[argv[2]]);
     len = sizeof(address);
 
     // Connect our socket to the server's socket.
@@ -56,7 +58,7 @@ int main(int argc, char *argv[])
     //  Write a string to the socket via sockfd.
     printf("Writing '%s' to the socket.\n", message);
 
-    const int SIZE = sprintf(output,"Client 1 user message: \"%s\" to the socket %s\n",message,SOCKET_NAMES[0]);
+    const int SIZE = sprintf(output,"Client 1 user message: \"%s\" to the socket %s\n",message,SOCKET_NAMES[argv[2]]);
     write(client_sockfd, output, SIZE);
 
     //  Write the same string to a file.
